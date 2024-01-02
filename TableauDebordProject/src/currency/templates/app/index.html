@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+        <div class="col">
+            <h1 class="text-white">Tableau de Bord - {{time}}</h1>
+            <a href="{% url 'home' days_range=7 currencies=currencies_str %}" class="btn {% if time == 'Week' %}btn-info {% else %}btn-secondary{% endif %}">Week</a>
+            <a href="{% url 'home' days_range=30 currencies=currencies_str %}" class="btn {% if time == 'Month' %}btn-info {% else %}btn-secondary{% endif %}">Month</a>
+            <a href="{% url 'home' days_range=365 currencies=currencies_str %}" class="btn {% if time == 'Year' %}btn-info {% else %}btn-secondary{% endif %}">Year</a>
+        </div>
+    <div class="row justify-content-center">
+        {% for key,value in rates.items %}
+           <div class="col-md-10 col-lg-6">
+               <canvas id='chart-{{key}}'></canvas>
+           </div>
+        {% endfor %}
+
+    </div>
+</div>
+<script>
+    {% for key,value in rates.items %}
+        var ctx = document.getElementById('chart-{{key}}');
+        var mychart= new Chart(ctx,{
+            type:'line',
+            data:{
+            labels:{{days|safe}},
+            datasets:[{
+                label:"{{key}}",
+                data: {{value|safe}},
+                fill:true,
+                borderColor:'#dc3545',
+                      }]
+                  }
+            });
+    {% endfor %}
+</script>
+</body>
+</html>

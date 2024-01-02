@@ -1,0 +1,1 @@
+C:\Users\mehdi\PycharmProjects\TableauDebordProject\venv\Scripts\python.exe C:\Users\mehdi\PycharmProjects\TableauDebordProject\src\manage.py runserver
